@@ -6,6 +6,8 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use function Laravel\Prompts\search;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +78,18 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/', function(){
+  if(request('search')){
+     $title=Task::where('title', 'like', '%' .request('search') . '%')->get();
+     dump($title);
+  }else{
+    $title = Task::all();
+    dump($title);
+
+  }
+  return view('index')->with(['tasks' => $title]); // Replace 'your_view_name' with the actual name of your view
+});
+
 
 
 Route::get('/', function () {
@@ -83,7 +97,7 @@ Route::get('/', function () {
 });
 
 Route::get('/tasks',function(){
-  
+
   return view('index',[
    'tasks'=> Task::latest()->paginate(10)
   ]);
@@ -94,12 +108,12 @@ Route::get('/tasks',function(){
 Route::view('/tasks/create','create')->name('tasks.create');
 
 Route::get('/tasks/{task}/edit', function(Task $task) {
-   
+
 
    return view ('edit',[
-    
-    'task'=> $task 
-  
+
+    'task'=> $task
+
   ]);
 
   })->name('tasks.edit');
@@ -107,8 +121,8 @@ Route::get('/tasks/{task}/edit', function(Task $task) {
 
 
 Route::get('/tasks/{task}', function(Task $task) {
-  
-  // this is my logic 
+
+  // this is my logic
 // if(is_null(\App\Models\Task::find($id))){
 //   abort(404,'Page not found');
 // }
@@ -117,25 +131,25 @@ Route::get('/tasks/{task}', function(Task $task) {
 
 
    return view ('show',[
-    
+
     'task'=> $task
-  
+
     ]);
 
   })->name('tasks.show');
 
  Route::post('/tasks',function(TaskRequest $req){
-   $task=Task::create($req->validated()); 
+   $task=Task::create($req->validated());
   return redirect()->route('tasks.show',['task'=>$task->id])
   ->with('success','task created succefully');
- 
+
 })->name('tasks.store');
 
 
 
 Route::put('/tasks/{task}', function (Task $task,TaskRequest $req){
 
-  $task->update($req->validated()); 
+  $task->update($req->validated());
   return redirect()->route('tasks.show',['task'=>$task->id])
   ->with('success','task updated  succefully');
 
@@ -150,7 +164,7 @@ Route::delete('/tasks/{task}',function(Task $task){
 // task completed
 
 Route::put('tasks/{task}/toggle-complete',function(Task $task){
- 
+
   $task->toggleComplete();
   return redirect()->back()->with('success','Task updated successfully');
 

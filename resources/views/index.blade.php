@@ -6,23 +6,25 @@
 
 <nav class="mb-4">
 <a href="{{route('tasks.create')}}"
-    
+
    class='font-medium text-gray-700 underline decoration-pink-500'> Add tasks! </a>
 
 </nav>
+<form>
+    <input type="search" class="form-control" placeholder="Find task here" name="search" value="{{request('search')}}">
+
+</form>
 
 <div>
  {{-- @if(count($tasks))  --}}
-
-
 @forelse ($tasks as $task)
-   <div> 
+   <div>
     <a href="{{ route('tasks.show',['task'=>$task->id]) }}"
-    
-       @class(['font-bold','line-through'=>$task->completed])> {{$task->title}}   </a>
-    
+
+       @class(['font-bold','line-through'=>$task->completed])> {{$task->title}}    </a>
+
 </div>
-@empty  
+@empty
     <p>No users </p>
 @endforelse
 {{-- @dd($tasks->links()) --}}

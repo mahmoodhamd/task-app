@@ -6,13 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TaskRequest extends FormRequest
 {
-    
+
     public function authorize(): bool
     {
         return true;
     }
 
-    
+
     public function rules(): array
     {
         return [
@@ -20,7 +20,7 @@ class TaskRequest extends FormRequest
             'description'=>'required',
             'summary'=>'required',
             'long_description'=>'required',
-           
+
         ];
     }
 }
