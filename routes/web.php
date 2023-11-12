@@ -77,21 +77,6 @@ use function Laravel\Prompts\search;
 
 
 
-
-Route::get('/', function(){
-  if(request('search')){
-     $title=Task::where('title', 'like', '%' .request('search') . '%')->get();
-     dump($title);
-  }else{
-    $title = Task::all();
-    dump($title);
-
-  }
-  return view('index')->with(['tasks' => $title]); // Replace 'your_view_name' with the actual name of your view
-});
-
-
-
 Route::get('/', function () {
     return redirect()->route('tasks.index');
 });
