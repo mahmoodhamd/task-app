@@ -10,13 +10,14 @@
    class='font-medium text-gray-700 underline decoration-pink-500'> Add tasks! </a>
 
 </nav>
-<form>
-    <input type="search" class="form-control" placeholder="Find task here" name="search" value="{{request('search')}}">
 
-</form>
+@livewire('search-bar')
 
 <div>
  {{-- @if(count($tasks))  --}}
+
+
+
 @forelse ($tasks as $task)
    <div>
     <a href="{{ route('tasks.show',['task'=>$task->id]) }}"
